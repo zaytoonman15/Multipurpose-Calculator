@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="Af4AJA8CiZhEaCXobxgb2DQSz1vVlE2qqPC7za6lW08" />
+<title>Calculator - آلة حاسبة ذكية الشاملة</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Cairo',sans-serif;
+  transition: background 0.3s, color 0.3s, border-color 0.3s;
+}
+body{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:radial-gradient(circle at top,#2563eb,#0f172a 60%);
+  padding:15px;
+  overflow-y:auto;
+  position: relative;
+}
+body.light-mode {
+  background: radial-gradient(circle at top, #93c5fd, #f1f5f9 60%);
+}
+body::before, body::after{
+  content:"";
+  position:absolute;
+  width:400px;
+  height:400px;
+  filter:blur(180px);
+  opacity:.2;
+  border-radius:50%;
+  z-index: 1;
+}
+body::before{ background:#3b82f6; top:-150px; right:-150px; }
+body::after{ background:#06b6d4; bottom:-150px; left:-150px; }
+
+.main-container {
+  display: flex;
+  width: 100%;
+  max-width: 500px;
+  align-items: flex-start;
+  position: relative;
+  z-index: 2;
+}
+
+.calculator{
+  flex: 1;
+  padding:20px;
+  border-radius:30px;
+  background:rgba(17,24,39,.75);
+  backdrop-filter:blur(18px);
+  border:1px solid rgba(255,255,255,.1);
+  box-shadow:0 0 30px rgba(0,0,0,.4);
+  max-height:98vh;
+  overflow-y:auto;
+  min-width: 0;
+  width: 100%;
+}
+body.light-mode .calculator {
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+}
+
+/* ====== Sidebar ====== */
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+.sidebar-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+.history-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 380px;
+  max-width: 90vw;
+  background: rgba(17, 24, 39, 0.95);
+  backdrop-filter: blur(20px);
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 25px 20px;
+  z-index: 1001;
+  transform: translateX(-110%);
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 4px 0 40px rgba(0, 0, 0, 0.5);
+}
+body.light-mode .history-sidebar {
+  background: rgba(255, 255, 255, 0.95);
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+}
+.history-sidebar.open {
+  transform: translateX(0);
+}
+.history-sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+body.light-mode .history-sidebar-header {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+.history-sidebar-header h3 {
+  color: white;
+  margin: 0;
+  font-size: 1.3rem;
+}
+body.light-mode .history-sidebar-header h3 {
+  color: #1e293b;
+}
+.close-sidebar-btn {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  font-size: 1.8rem;
+  cursor: pointer;
+  padding: 0 8px;
+  transition: all 0.3s;
+}
+.close-sidebar-btn:hover {
+  color: #ef4444;
+  transform: rotate(90deg);
+}
+.history-list-sidebar {
+  flex: 1;
+  overflow-y: auto;
+  list-style: none;
+  font-size: 0.95rem;
+  color: #cbd5e1;
+  text-align: right;
+  padding: 0;
+}
+body.light-mode .history-list-sidebar {
+  color: #475569;
+}
+.history-item-sidebar {
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  margin-bottom: 6px;
+  background: rgba(255, 255, 255, 0.03);
+  transition: all 0.2s;
+}
+body.light-mode .history-item-sidebar {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  background: rgba(0, 0, 0, 0.02);
+}
+.history-item-sidebar:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateX(-4px);
+}
+body.light-mode .history-item-sidebar:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+.clear-history-btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 12px;
+  background: #ef4444;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 15px;
+  transition: all 0.3s;
+}
+.clear-history-btn:hover {
+  background: #dc2626;
+  transform: scale(0.98);
+}
+.history-toggle-btn {
+  background: rgba(30, 41, 59, 0.8);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 8px 16px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s;
+}
+body.light-mode .history-toggle-btn {
+  background: rgba(226, 232, 240, 0.8);
+  color: #1e293b;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+.history-toggle-btn:hover {
+  background: #3b82f6;
+  color: white;
+  transform: scale(1.02);
+}
+.badge {
+  background: #3b82f6;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 8px;
+  font-size: 0.7rem;
+  margin-right: 5px;
+}
+
+.top-bar{ display:flex; gap:10px; margin-bottom:15px; align-items: center; flex-wrap: wrap; }
+select, input[type="number"], input[type="date"], input[type="text"]{
+  flex:1; padding:12px; border:none; border-radius:12px;
+  background:#1e293b; color:white; font-size:0.95rem; width:100%;
+  min-width: 80px;
+}
+body.light-mode select, body.light-mode input[type="number"], body.light-mode input[type="date"], body.light-mode input[type="text"] {
+  background: #e2e8f0; color: #1e293b; border: 1px solid #cbd5e1;
+}
+.theme-btn, .fullscreen-btn {
+  background: #1e293b; color: white; border: none; padding: 0 15px;
+  border-radius: 12px; cursor: pointer; font-size: 1.2rem;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.3s;
+  height: 48px;
+}
+body.light-mode .theme-btn, body.light-mode .fullscreen-btn {
+  background: #e2e8f0; color: #1e293b;
+}
+.spin {
+  display: inline-block;
+  animation: spin 0.5s ease-in-out;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+h2, h3{ color:white; text-align:center; margin-bottom:15px; }
+body.light-mode h2, body.light-mode h3 { color: #1e293b; }
+
+.screen{
+  width:100%; height:80px; border:none; border-radius:18px;
+  background:#0f172a; color:white; font-size:2rem; padding:10px;
+  margin-bottom:15px; text-align:left;
+}
+body.light-mode .screen { background: #f8fafc; color: #1e293b; border: 1px solid #cbd5e1; }
+
+/* أزرار الحاسبة */
+.buttons{ display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+button{
+  height:55px; border:none; border-radius:14px; font-size:1.2rem;
+  color:white; background:#1e293b; cursor: pointer; position: relative;
+}
+body.light-mode button { background: #e2e8f0; color: #1e293b; }
+button:active{ transform:scale(.96); }
+.operator{ background:#f97316; color:white !important; }
+.equal{ background:#10b981; grid-column:span 2; color: white !important; }
+.clear{ background:#ef4444; color: white !important; }
+.zero{ grid-column:span 2; }
+.sci-btn{ background:#8b5cf6; color:white !important; font-size:0.9rem; }
+.sci-close{ background:#a78bfa; color:white !important; font-size:0.9rem; }
+
+.box-section{ margin-top:20px; padding:15px; border-radius:18px; background:#0f172a; }
+body.light-mode .box-section { background: #f8fafc; border: 1px solid #cbd5e1; }
+
+.result{ text-align:center; margin-top:10px; color:#22c55e; font-weight:bold; font-size:1.1rem; min-height: 25px;}
+.btn-action { width:100%; background:#10b981; padding:12px; border-radius:12px; color:white; border:none; cursor:pointer; font-weight:bold; margin-top:10px;}
+.tabs { display: flex; gap: 5px; margin-bottom: 15px; background: #0f172a; padding: 5px; border-radius: 12px; flex-wrap: wrap; overflow-x: auto; }
+.tab-btn { flex: 1; min-width: 50px; padding: 6px 8px; font-size: 0.7rem; border-radius: 8px; background: transparent; color: #cbd5e1; border: none; cursor: pointer; white-space: nowrap; }
+.tab-btn.active { background: #3b82f6; color: white; }
+
+/* BMI Graph */
+.bmi-graph {
+  width: 100%;
+  height: 30px;
+  background: linear-gradient(to right, #3b82f6, #22c55e, #facc15, #ef4444);
+  border-radius: 15px;
+  margin-top: 10px;
+  position: relative;
+  overflow: hidden;
+}
+.bmi-indicator {
+  position: absolute;
+  top: -8px;
+  width: 6px;
+  height: 46px;
+  background: white;
+  border-radius: 3px;
+  box-shadow: 0 0 15px rgba(255,255,255,0.8);
+  transition: left 0.5s ease;
+}
+.bmi-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.6rem;
+  color: #94a3b8;
+  margin-top: 5px;
+}
+body.light-mode .bmi-labels { color: #475569; }
+
+/* Timer */
+.timer-display {
+  font-size: 2.5rem;
+  text-align: center;
+  color: #22c55e;
+  font-weight: bold;
+  padding: 10px;
+  font-family: monospace;
+}
+.timer-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+.timer-buttons button {
+  flex: 1;
+  height: 45px;
+  font-size: 1rem;
+}
+
+/* Percentage */
+.percent-inputs {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+.percent-inputs input {
+  flex: 1;
+  min-width: 80px;
+}
+
+@media (max-width: 768px) {
+  .history-sidebar { width: 100%; max-width: 100%; }
+  .buttons { grid-template-columns: repeat(4,1fr); gap: 6px; }
+  button { height: 48px; font-size: 1rem; }
+  .sci-btn { font-size: 0.75rem; }
+  .sci-close { font-size: 0.75rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="main-container">
+  <div class="calculator" id="calculator">
+    <h2 id="title">آلة حاسبة متطورة</h2>
+
+    <div class="top-bar">
+      <select id="language" onchange="changeLanguage()">
+        <option value="ar">العربية</option>
+        <option value="en">English</option>
+        <option value="es">Español</option>
+      </select>
+      <button class="history-toggle-btn" onclick="toggleSidebar()">
+        📋 <span id="historyToggleText">السجل</span>
+        <span class="badge" id="historyBadge">0</span>
+      </button>
+      <button class="fullscreen-btn" onclick="toggleFullscreen()" title="شاشة كاملة">⛶</button>
+      <button class="theme-btn" id="themeToggle" onclick="toggleTheme()"><span id="themeIcon">🌙</span></button>
+    </div>
+
+    <input id="screen" class="screen" disabled placeholder="0">
+
+    <!-- الأزرار العلمية -->
+    <div class="buttons" style="margin-bottom:10px;">
+      <button class="sci-btn" onclick="appendValue('sin(')">sin(</button>
+      <button class="sci-btn" onclick="appendValue('cos(')">cos(</button>
+      <button class="sci-btn" onclick="appendValue('tan(')">tan(</button>
+      <button class="sci-btn" onclick="appendValue('log(')">log(</button>
+      <button class="sci-btn" onclick="appendValue('sqrt(')">√(</button>
+      <button class="sci-btn" onclick="appendValue('**2')">x²</button>
+      <button class="sci-btn" onclick="appendValue('**3')">x³</button>
+      <button class="sci-btn" onclick="appendValue('PI')">π</button>
+      <button class="sci-close" onclick="appendValue(')')"> )</button>
+    </div>
+
+    <div class="buttons">
+      <button class="clear" onclick="appendValue('C')">C</button>
+      <button class="operator" onclick="appendValue('%')">%</button>
+      <button class="operator" onclick="appendValue('/')">÷</button>
+      <button class="operator" onclick="appendValue('*')">×</button>
+
+      <button onclick="appendValue('7')">7</button>
+      <button onclick="appendValue('8')">8</button>
+      <button onclick="appendValue('9')">9</button>
+      <button class="operator" onclick="appendValue('-')">-</button>
+
+      <button onclick="appendValue('4')">4</button>
+      <button onclick="appendValue('5')">5</button>
+      <button onclick="appendValue('6')">6</button>
+      <button class="operator" onclick="appendValue('+')">+</button>
+
+      <button onclick="appendValue('1')">1</button>
+      <button onclick="appendValue('2')">2</button>
+      <button onclick="appendValue('3')">3</button>
+      <button class="operator" onclick="appendValue('.')">.</button>
+
+      <button class="zero" onclick="appendValue('0')">0</button>
+      <button class="equal" onclick="calculate()">=</button>
+    </div>
+
+    <div class="box-section">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('currency')">💱 <span id="tabCurr">العملات</span></button>
+        <button class="tab-btn" onclick="switchTab('health')">⚖️ <span id="tabHealth">الصحة</span></button>
+        <button class="tab-btn" onclick="switchTab('temp')">🌡️ <span id="tabTemp">الحرارة</span></button>
+        <button class="tab-btn" onclick="switchTab('age')">📅 <span id="tabAge">العمر</span></button>
+        <button class="tab-btn" onclick="switchTab('percent')">% <span id="tabPercent">نسبة</span></button>
+        <button class="tab-btn" onclick="switchTab('timer')">⏱️ <span id="tabTimer">مؤقت</span></button>
+      </div>
+
+      <!-- Currency -->
+      <div id="currencyPanel">
+        <h3 id="currencyTitle">تحويل العملات (مباشر)</h3>
+        <input type="number" id="amount" placeholder="أدخل المبلغ" value="1">
+        <div class="top-bar" style="margin-top:10px;">
+          <select id="fromCurrency">
+            <option value="USD">🇺🇸 USD - دولار أمريكي</option>
+            <option value="EUR">🇪🇺 EUR - يورو</option>
+            <option value="GBP">🇬🇧 GBP - جنيه إسترليني</option>
+            <option value="JPY">🇯🇵 JPY - ين ياباني</option>
+            <option value="CNY">🇨🇳 CNY - يوان صيني</option>
+            <option value="RUB">🇷🇺 RUB - روبل روسي</option>
+            <option value="INR">🇮🇳 INR - روبية هندية</option>
+            <option value="BRL">🇧🇷 BRL - ريال برازيلي</option>
+            <option value="ZAR">🇿🇦 ZAR - راند جنوب أفريقي</option>
+            <option value="AUD">🇦🇺 AUD - دولار أسترالي</option>
+            <option value="CAD">🇨🇦 CAD - دولار كندي</option>
+            <option value="CHF">🇨🇭 CHF - فرنك سويسري</option>
+            <option value="SGD">🇸🇬 SGD - دولار سنغافوري</option>
+            <option value="HKD">🇭🇰 HKD - دولار هونغ كونغ</option>
+            <option value="SEK">🇸🇪 SEK - كرونة سويدية</option>
+            <option value="NOK">🇳🇴 NOK - كرونة نروجية</option>
+            <option value="DKK">🇩🇰 DKK - كرونة دنماركية</option>
+            <option value="PLN">🇵🇱 PLN - زلوتي بولندي</option>
+            <option value="TRY">🇹🇷 TRY - ليرة تركية</option>
+            <option value="ILS">🇮🇱 ILS - شيكل إسرائيلي</option>
+            <option value="SAR" selected>🇸🇦 SAR - ريال سعودي</option>
+            <option value="AED">🇦🇪 AED - درهم إماراتي</option>
+            <option value="KWD">🇰🇼 KWD - دينار كويتي</option>
+            <option value="BHD">🇧🇭 BHD - دينار بحريني</option>
+            <option value="QAR">🇶🇦 QAR - ريال قطري</option>
+            <option value="OMR">🇴🇲 OMR - ريال عماني</option>
+            <option value="JOD">🇯🇴 JOD - دينار أردني</option>
+            <option value="IQD">🇮🇶 IQD - دينار عراقي</option>
+            <option value="EGP">🇪🇬 EGP - جنيه مصري</option>
+            <option value="DZD">🇩🇿 DZD - دينار جزائري</option>
+            <option value="MAD">🇲🇦 MAD - درهم مغربي</option>
+            <option value="TND">🇹🇳 TND - دينار تونسي</option>
+            <option value="LYD">🇱🇾 LYD - دينار ليبي</option>
+            <option value="SDG">🇸🇩 SDG - جنيه سوداني</option>
+            <option value="SYP">🇸🇾 SYP - ليرة سورية</option>
+            <option value="LBP">🇱🇧 LBP - ليرة لبنانية</option>
+            <option value="YER">🇾🇪 YER - ريال يمني</option>
+            <option value="MXN">🇲🇽 MXN - بيزو مكسيكي</option>
+            <option value="KRW">🇰🇷 KRW - وون كوري</option>
+            <option value="THB">🇹🇭 THB - بات تايلاندي</option>
+          </select>
+          <select id="toCurrency">
+            <option value="USD">🇺🇸 USD - دولار أمريكي</option>
+            <option value="EUR">🇪🇺 EUR - يورو</option>
+            <option value="GBP">🇬🇧 GBP - جنيه إسترليني</option>
+            <option value="JPY">🇯🇵 JPY - ين ياباني</option>
+            <option value="CNY">🇨🇳 CNY - يوان صيني</option>
+            <option value="RUB">🇷🇺 RUB - روبل روسي</option>
+            <option value="INR">🇮🇳 INR - روبية هندية</option>
+            <option value="BRL">🇧🇷 BRL - ريال برازيلي</option>
+            <option value="ZAR">🇿🇦 ZAR - راند جنوب أفريقي</option>
+            <option value="AUD">🇦🇺 AUD - دولار أسترالي</option>
+            <option value="CAD">🇨🇦 CAD - دولار كندي</option>
+            <option value="CHF">🇨🇭 CHF - فرنك سويسري</option>
+            <option value="SGD">🇸🇬 SGD - دولار سنغافوري</option>
+            <option value="HKD">🇭🇰 HKD - دولار هونغ كونغ</option>
+            <option value="SEK">🇸🇪 SEK - كرونة سويدية</option>
+            <option value="NOK">🇳🇴 NOK - كرونة نروجية</option>
+            <option value="DKK">🇩🇰 DKK - كرونة دنماركية</option>
+            <option value="PLN">🇵🇱 PLN - زلوتي بولندي</option>
+            <option value="TRY">🇹🇷 TRY - ليرة تركية</option>
+            <option value="ILS">🇮🇱 ILS - شيكل إسرائيلي</option>
+            <option value="SAR">🇸🇦 SAR - ريال سعودي</option>
+            <option value="AED">🇦🇪 AED - درهم إماراتي</option>
+            <option value="KWD">🇰🇼 KWD - دينار كويتي</option>
+            <option value="BHD">🇧🇭 BHD - دينار بحريني</option>
+            <option value="QAR">🇶🇦 QAR - ريال قطري</option>
+            <option value="OMR">🇴🇲 OMR - ريال عماني</option>
+            <option value="JOD">🇯🇴 JOD - دينار أردني</option>
+            <option value="IQD" selected>🇮🇶 IQD - دينار عراقي</option>
+            <option value="EGP">🇪🇬 EGP - جنيه مصري</option>
+            <option value="DZD">🇩🇿 DZD - دينار جزائري</option>
+            <option value="MAD">🇲🇦 MAD - درهم مغربي</option>
+            <option value="TND">🇹🇳 TND - دينار تونسي</option>
+            <option value="LYD">🇱🇾 LYD - دينار ليبي</option>
+            <option value="SDG">🇸🇩 SDG - جنيه سوداني</option>
+            <option value="SYP">🇸🇾 SYP - ليرة سورية</option>
+            <option value="LBP">🇱🇧 LBP - ليرة لبنانية</option>
+            <option value="YER">🇾🇪 YER - ريال يمني</option>
+            <option value="MXN">🇲🇽 MXN - بيزو مكسيكي</option>
+            <option value="KRW">🇰🇷 KRW - وون كوري</option>
+            <option value="THB">🇹🇭 THB - بات تايلاندي</option>
+          </select>
+        </div>
+        <button class="btn-action" onclick="convertCurrency()" id="btnConvert">تحويل</button>
+        <div class="result" id="currencyResult"></div>
+      </div>
+
+      <!-- Health -->
+      <div id="healthPanel" style="display:none;">
+        <h3 id="healthTitle">حاسبة الوزن المثالي (BMI)</h3>
+        <input type="number" id="weight" placeholder="الوزن بالـ كيلوغرام">
+        <input type="number" id="height" placeholder="الطول بالـ سنتيمتر" style="margin-top:10px;">
+        <button class="btn-action" onclick="calculateBMI()" id="btnBmi">احسب مؤشر الصحة</button>
+        <div class="result" id="healthResult"></div>
+        <div id="bmiGraphContainer" style="display:none; margin-top:15px;">
+          <div class="bmi-graph">
+            <div class="bmi-indicator" id="bmiIndicator" style="left:50%;"></div>
+          </div>
+          <div class="bmi-labels">
+            <span>نقص وزن</span>
+            <span>مثالي</span>
+            <span>زيادة</span>
+            <span>سمنة</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Temperature -->
+      <div id="tempPanel" style="display:none;">
+        <h3 id="tempTitle">محول درجات الحرارة</h3>
+        <input type="number" id="tempInput" placeholder="أدخل الدرجة">
+        <div class="top-bar" style="margin-top:10px;">
+          <select id="fromTemp"><option value="C">سيليزي (C°)</option><option value="F">فهرنهايت (F°)</option><option value="K">كلفن (K)</option></select>
+          <select id="toTemp"><option value="F">فهرنهايت (F°)</option><option value="C">سيليزي (C°)</option><option value="K">كلفن (K)</option></select>
+        </div>
+        <button class="btn-action" onclick="convertTemperature()" id="btnTemp">تحويل الحرارة</button>
+        <div class="result" id="tempResult"></div>
+      </div>
+
+      <!-- Age -->
+      <div id="agePanel" style="display:none;">
+        <h3 id="ageTitle">حاسبة العمر الدقيقة</h3>
+        <input type="date" id="birthDate">
+        <button class="btn-action" onclick="calculateAge()" id="btnAge">احسب العمر</button>
+        <div class="result" id="ageResult"></div>
+      </div>
+
+      <!-- Percentage -->
+      <div id="percentPanel" style="display:none;">
+        <h3 id="percentTitle">حاسبة النسبة المئوية</h3>
+        <div class="percent-inputs">
+          <input type="number" id="percentValue" placeholder="القيمة">
+          <input type="number" id="percentTotal" placeholder="الإجمالي">
+        </div>
+        <button class="btn-action" onclick="calculatePercent()" id="btnPercent">احسب النسبة</button>
+        <div class="result" id="percentResult"></div>
+        <hr style="border-color:rgba(255,255,255,0.1); margin:15px 0;">
+        <h3 id="percentChangeTitle">زيادة/نقصان النسبة</h3>
+        <div class="percent-inputs">
+          <input type="number" id="percentFrom" placeholder="القيمة الأصلية">
+          <input type="number" id="percentChange" placeholder="النسبة المئوية %">
+        </div>
+        <button class="btn-action" onclick="calculatePercentChange()" id="btnPercentChange">احسب</button>
+        <div class="result" id="percentChangeResult"></div>
+      </div>
+
+      <!-- Timer -->
+      <div id="timerPanel" style="display:none;">
+        <h3 id="timerTitle">⏱️ مؤقت وساعة توقيت</h3>
+        <div class="timer-display" id="timerDisplay">00:00:00</div>
+        <div class="timer-buttons">
+          <button onclick="startTimer()" id="timerStart" style="background:#22c55e; color:white;">▶️ بدء</button>
+          <button onclick="pauseTimer()" id="timerPause" style="background:#facc15; color:#1e293b;">⏸️ إيقاف</button>
+          <button onclick="resetTimer()" id="timerReset" style="background:#ef4444; color:white;">⏹️ إعادة</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Sidebar -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+<div class="history-sidebar" id="historySidebar">
+  <div class="history-sidebar-header">
+    <h3 id="sidebarTitle">📋 سجل العمليات</h3>
+    <button class="close-sidebar-btn" onclick="toggleSidebar()">✕</button>
+  </div>
+  <ul class="history-list-sidebar" id="historyListSidebar"></ul>
+  <button class="clear-history-btn" onclick="clearHistory()" id="clearHistoryBtn">🗑️ مسح الكل</button>
+</div>
+
+<script>
+// ====== الأصوات ======
+const sounds = {
+  click: new Audio("https://www.soundjay.com/buttons/sounds/button-16.mp3"),
+  operator: new Audio("https://www.soundjay.com/buttons/sounds/button-09.mp3"),
+  equal: new Audio("https://www.soundjay.com/buttons/sounds/button-10.mp3"),
+  clear: new Audio("https://www.soundjay.com/buttons/sounds/button-11.mp3"),
+  error: new Audio("https://www.soundjay.com/buttons/sounds/button-07.mp3")
+};
+Object.values(sounds).forEach(s => { s.volume = 0.3; });
+
+function playSound(type) {
+  try {
+    const sound = sounds[type] || sounds.click;
+    sound.currentTime = 0;
+    sound.play().catch(() => {});
+  } catch(e) {}
+}
+
+// ====== المتغيرات العامة ======
+let lang = "ar";
+let timerInterval = null;
+let timerSeconds = 0;
+let timerRunning = false;
+
+const text = {
+  ar: {
+    title: "آلة حاسبة متطورة",
+    currency: "تحويل العملات (مباشر)",
+    health: "حاسبة الوزن المثالي (BMI)",
+    temp: "محول درجات الحرارة",
+    age: "حاسبة العمر من المواليد",
+    percent: "حاسبة النسبة المئوية",
+    percentChange: "زيادة/نقصان النسبة",
+    timer: "⏱️ مؤقت وساعة توقيت",
+    history: "📋 سجل العمليات",
+    tabCurr: "العملات",
+    tabHealth: "الصحة",
+    tabTemp: "الحرارة",
+    tabAge: "العمر",
+    tabPercent: "نسبة",
+    tabTimer: "مؤقت",
+    btnConvert: "تحويل",
+    btnBmi: "احسب مؤشر الصحة",
+    btnTemp: "تحويل الحرارة",
+    btnAge: "احسب العمر",
+    btnPercent: "احسب النسبة",
+    btnPercentChange: "احسب",
+    clearHistory: "🗑️ مسح الكل",
+    toggleHistory: "السجل"
+  },
+  en: {
+    title: "Advanced Calculator",
+    currency: "Live Currency Converter",
+    health: "BMI & Health Calculator",
+    temp: "Temperature Converter",
+    age: "Age Calculator",
+    percent: "Percentage Calculator",
+    percentChange: "Increase/Decrease",
+    timer: "⏱️ Timer & Stopwatch",
+    history: "📋 History",
+    tabCurr: "Currency",
+    tabHealth: "Health",
+    tabTemp: "Temperature",
+    tabAge: "Age",
+    tabPercent: "Percent",
+    tabTimer: "Timer",
+    btnConvert: "Convert",
+    btnBmi: "Calculate BMI",
+    btnTemp: "Convert",
+    btnAge: "Calculate Age",
+    btnPercent: "Calculate",
+    btnPercentChange: "Calculate",
+    clearHistory: "🗑️ Clear All",
+    toggleHistory: "History"
+  },
+  es: {
+    title: "Calculadora Avanzada",
+    currency: "Conversor en Vivo",
+    health: "Calculadora de IMC",
+    temp: "Conversor de Temperatura",
+    age: "Calculadora de Edad",
+    percent: "Calculadora de Porcentaje",
+    percentChange: "Aumento/Disminución",
+    timer: "⏱️ Temporizador",
+    history: "📋 Historial",
+    tabCurr: "Moneda",
+    tabHealth: "Salud",
+    tabTemp: "Temperatura",
+    tabAge: "Edad",
+    tabPercent: "Porcentaje",
+    tabTimer: "Temporizador",
+    btnConvert: "Convertir",
+    btnBmi: "Calcular IMC",
+    btnTemp: "Convertir",
+    btnAge: "Calcular Edad",
+    btnPercent: "Calcular",
+    btnPercentChange: "Calcular",
+    clearHistory: "🗑️ Borrar Todo",
+    toggleHistory: "Historial"
+  }
+};
+
+// ====== الوظائف الأساسية ======
+function toArabicNumbers(str) { return str.replace(/\d/g,d=>"٠١٢٣٤٥٦٧٨٩"[d]); }
+function toEnglishNumbers(str) { return str.replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d)); }
+
+function appendValue(v) {
+  if (v === 'C') { 
+    document.getElementById("screen").value = ""; 
+    playSound('clear');
+    return; 
+  }
+  playSound('click');
+  let screen = document.getElementById("screen");
+  let current = toEnglishNumbers(screen.value);
+  current += v;
+  screen.value = (lang === "ar") ? toArabicNumbers(current) : current;
+}
+
+function calculate() {
+  try {
+    let originalExpr = document.getElementById("screen").value;
+    if (!originalExpr) return;
+    let expr = toEnglishNumbers(originalExpr)
+      .replace(/×/g, '*')
+      .replace(/÷/g, '/')
+      .replace(/sin\(/g, 'Math.sin(')
+      .replace(/cos\(/g, 'Math.cos(')
+      .replace(/tan\(/g, 'Math.tan(')
+      .replace(/log\(/g, 'Math.log(')
+      .replace(/sqrt\(/g, 'Math.sqrt(')
+      .replace(/PI/g, 'Math.PI');
+    
+    let res = Function('"use strict";return (' + expr + ')')();
+    if (typeof res === 'number' && !Number.isInteger(res)) {
+      res = parseFloat(res.toFixed(10));
+    }
+    let finalResult = (lang === "ar") ? toArabicNumbers(res.toString()) : res;
+    document.getElementById("screen").value = finalResult;
+    playSound('equal');
+    addHistoryItem(originalExpr + " = " + finalResult);
+  } catch(e) {
+    document.getElementById("screen").value = "Error";
+    playSound('error');
+  }
+}
+
+// ====== لوحة المفاتيح ======
+document.addEventListener('keydown', function(event) {
+  const key = event.key;
+  if ((key >= '0' && key <= '9') || key === '.') { appendValue(key); }
+  else if (key === '+') { appendValue('+'); }
+  else if (key === '-') { appendValue('-'); }
+  else if (key === '*') { appendValue('*'); }
+  else if (key === '/') { event.preventDefault(); appendValue('/'); }
+  else if (key === '%') { appendValue('%'); }
+  else if (key === '(') { appendValue('('); }
+  else if (key === ')') { appendValue(')'); }
+  else if (key === 'Enter' || key === '=') { event.preventDefault(); calculate(); }
+  else if (key === 'Escape') { appendValue('C'); }
+  else if (key === 'Backspace') {
+    let screen = document.getElementById("screen");
+    let current = toEnglishNumbers(screen.value);
+    current = current.slice(0, -1);
+    screen.value = (lang === "ar") ? toArabicNumbers(current) : current;
+  }
+});
+
+// ====== التبويبات ======
+function switchTab(tab) {
+  document.getElementById("currencyPanel").style.display = tab === 'currency' ? 'block' : 'none';
+  document.getElementById("healthPanel").style.display = tab === 'health' ? 'block' : 'none';
+  document.getElementById("tempPanel").style.display = tab === 'temp' ? 'block' : 'none';
+  document.getElementById("agePanel").style.display = tab === 'age' ? 'block' : 'none';
+  document.getElementById("percentPanel").style.display = tab === 'percent' ? 'block' : 'none';
+  document.getElementById("timerPanel").style.display = tab === 'timer' ? 'block' : 'none';
+  let tabs = document.querySelectorAll('.tab-btn');
+  tabs.forEach(t => t.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+}
+
+// ====== العملات ======
+async function convertCurrency() {
+  let amount = document.getElementById("amount").value;
+  let from = document.getElementById("fromCurrency").value;
+  let to = document.getElementById("toCurrency").value;
+  let resultDiv = document.getElementById("currencyResult");
+  resultDiv.innerText = lang === "ar" ? "جاري التحديث..." : "Updating...";
+  try {
+    let response = await fetch(`https://open.er-api.com/v6/latest/${from}`);
+    let data = await response.json();
+    let rate = data.rates[to];
+    let converted = (amount * rate).toFixed(2);
+    resultDiv.innerText = `${amount} ${from} = ${converted} ${to}`;
+    addHistoryItem(`💱 ${amount} ${from} → ${converted} ${to}`);
+  } catch(e) {
+    resultDiv.innerText = lang === "ar" ? "فشل الاتصال" : "Connection failed";
+  }
+}
+
+// ====== BMI ======
+function calculateBMI() {
+  let w = parseFloat(document.getElementById("weight").value);
+  let h = parseFloat(document.getElementById("height").value) / 100;
+  let resDiv = document.getElementById("healthResult");
+  let graphContainer = document.getElementById("bmiGraphContainer");
+  if (!w || !h || h <= 0) return;
+  let bmi = (w / (h * h));
+  let status = "";
+  let color = "";
+  let position = 0;
+  if (bmi < 18.5) { status = lang==="ar"?"نقص وزن":"Underweight"; color="#3b82f6"; position=10; }
+  else if (bmi < 25) { status = lang==="ar"?"وزن مثالي ✨":"Normal"; color="#22c55e"; position=35; }
+  else if (bmi < 30) { status = lang==="ar"?"وزن زائد":"Overweight"; color="#facc15"; position=60; }
+  else { status = lang==="ar"?"سمنة":"Obese"; color="#ef4444"; position=85; }
+  resDiv.innerText = `BMI = ${bmi.toFixed(1)} (${status})`;
+  graphContainer.style.display = 'block';
+  let indicator = document.getElementById('bmiIndicator');
+  indicator.style.left = Math.min(Math.max(position, 2), 98) + '%';
+  indicator.style.background = color;
+  addHistoryItem(`⚖️ BMI = ${bmi.toFixed(1)} (${status})`);
+}
+
+// ====== الحرارة ======
+function convertTemperature() {
+  let val = parseFloat(document.getElementById("tempInput").value);
+  let from = document.getElementById("fromTemp").value;
+  let to = document.getElementById("toTemp").value;
+  let resDiv = document.getElementById("tempResult");
+  if (isNaN(val)) return;
+  let c;
+  if (from === "C") c = val;
+  else if (from === "F") c = (val - 32) * 5 / 9;
+  else if (from === "K") c = val - 273.15;
+  let finalOutput;
+  if (to === "C") finalOutput = c.toFixed(2) + " °C";
+  else if (to === "F") finalOutput = (c * 9 / 5 + 32).toFixed(2) + " °F";
+  else if (to === "K") finalOutput = (c + 273.15).toFixed(2) + " K";
+  resDiv.innerText = finalOutput;
+  addHistoryItem(`🌡️ ${val}°${from} → ${finalOutput}`);
+}
+
+// ====== العمر ======
+function calculateAge() {
+  let birthInput = document.getElementById("birthDate").value;
+  let resDiv = document.getElementById("ageResult");
+  if (!birthInput) return;
+  let birth = new Date(birthInput);
+  let now = new Date();
+  let years = now.getFullYear() - birth.getFullYear();
+  let months = now.getMonth() - birth.getMonth();
+  let days = now.getDate() - birth.getDate();
+  if (days < 0) { months--; days += new Date(now.getFullYear(), now.getMonth(), 0).getDate(); }
+  if (months < 0) { years--; months += 12; }
+  let msg = lang === "ar" ? `العمر: ${years} سنة، ${months} شهر، ${days} يوم` :
+            lang === "es" ? `Edad: ${years} años, ${months} meses, ${days} días` :
+            `Age: ${years} years, ${months} months, ${days} days`;
+  resDiv.innerText = msg;
+  addHistoryItem(`📅 ${msg}`);
+}
+
+// ====== النسبة المئوية ======
+function calculatePercent() {
+  let val = parseFloat(document.getElementById("percentValue").value);
+  let total = parseFloat(document.getElementById("percentTotal").value);
+  let resDiv = document.getElementById("percentResult");
+  if (isNaN(val) || isNaN(total) || total === 0) return;
+  let percent = (val / total * 100).toFixed(2);
+  resDiv.innerText = `${val} هي ${percent}% من ${total}`;
+  addHistoryItem(`% ${val} من ${total} = ${percent}%`);
+}
+
+function calculatePercentChange() {
+  let from = parseFloat(document.getElementById("percentFrom").value);
+  let change = parseFloat(document.getElementById("percentChange").value);
+  let resDiv = document.getElementById("percentChangeResult");
+  if (isNaN(from) || isNaN(change)) return;
+  let result = from + (from * change / 100);
+  resDiv.innerText = `${from} + ${change}% = ${result.toFixed(2)}`;
+  addHistoryItem(`% ${from} + ${change}% = ${result.toFixed(2)}`);
+}
+
+// ====== المؤقت ======
+function formatTime(sec) {
+  let h = Math.floor(sec / 3600);
+  let m = Math.floor((sec % 3600) / 60);
+  let s = Math.floor(sec % 60);
+  return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+}
+
+function updateTimerDisplay() {
+  document.getElementById("timerDisplay").innerText = formatTime(timerSeconds);
+}
+
+function startTimer() {
+  if (timerRunning) return;
+  timerRunning = true;
+  timerInterval = setInterval(() => {
+    timerSeconds++;
+    updateTimerDisplay();
+  }, 1000);
+  playSound('click');
+}
+
+function pauseTimer() {
+  timerRunning = false;
+  clearInterval(timerInterval);
+  playSound('click');
+}
+
+function resetTimer() {
+  timerRunning = false;
+  clearInterval(timerInterval);
+  timerSeconds = 0;
+  updateTimerDisplay();
+  playSound('clear');
+}
+
+// ====== شاشة كاملة ======
+function toggleFullscreen() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen().catch(() => {});
+  } else {
+    document.exitFullscreen().catch(() => {});
+  }
+}
+
+// ====== Sidebar ======
+function toggleSidebar() {
+  document.getElementById("historySidebar").classList.toggle("open");
+  document.getElementById("sidebarOverlay").classList.toggle("active");
+}
+
+function addHistoryItem(text) {
+  const list = document.getElementById("historyListSidebar");
+  const li = document.createElement("li");
+  li.className = "history-item-sidebar";
+  li.innerText = text;
+  list.insertBefore(li, list.firstChild);
+  updateBadge();
+  saveHistoryToStorage();
+}
+
+function clearHistory() {
+  document.getElementById("historyListSidebar").innerHTML = "";
+  localStorage.removeItem("calcHistory");
+  updateBadge();
+}
+
+function updateBadge() {
+  const count = document.querySelectorAll("#historyListSidebar .history-item-sidebar").length;
+  document.getElementById("historyBadge").innerText = count;
+}
+
+function saveHistoryToStorage() {
+  const items = [];
+  document.querySelectorAll("#historyListSidebar .history-item-sidebar").forEach(li => items.push(li.innerText));
+  localStorage.setItem("calcHistory", JSON.stringify(items));
+}
+
+function loadHistoryFromStorage() {
+  const saved = localStorage.getItem("calcHistory");
+  if (saved) {
+    const items = JSON.parse(saved);
+    const list = document.getElementById("historyListSidebar");
+    items.reverse().forEach(text => {
+      const li = document.createElement("li");
+      li.className = "history-item-sidebar";
+      li.innerText = text;
+      list.insertBefore(li, list.firstChild);
+    });
+    updateBadge();
+  }
+}
+
+// ====== تغيير اللغة ======
+function changeLanguage() {
+  lang = document.getElementById("language").value;
+  const t = text[lang];
+  document.getElementById("title").innerText = t.title;
+  document.getElementById("currencyTitle").innerText = t.currency;
+  document.getElementById("healthTitle").innerText = t.health;
+  document.getElementById("tempTitle").innerText = t.temp;
+  document.getElementById("ageTitle").innerText = t.age;
+  document.getElementById("percentTitle").innerText = t.percent;
+  document.getElementById("percentChangeTitle").innerText = t.percentChange;
+  document.getElementById("timerTitle").innerText = t.timer;
+  document.getElementById("sidebarTitle").innerText = t.history;
+  document.getElementById("tabCurr").innerText = t.tabCurr;
+  document.getElementById("tabHealth").innerText = t.tabHealth;
+  document.getElementById("tabTemp").innerText = t.tabTemp;
+  document.getElementById("tabAge").innerText = t.tabAge;
+  document.getElementById("tabPercent").innerText = t.tabPercent;
+  document.getElementById("tabTimer").innerText = t.tabTimer;
+  document.getElementById("btnConvert").innerText = t.btnConvert;
+  document.getElementById("btnBmi").innerText = t.btnBmi;
+  document.getElementById("btnTemp").innerText = t.btnTemp;
+  document.getElementById("btnAge").innerText = t.btnAge;
+  document.getElementById("btnPercent").innerText = t.btnPercent;
+  document.getElementById("btnPercentChange").innerText = t.btnPercentChange;
+  document.getElementById("clearHistoryBtn").innerText = t.clearHistory;
+  document.getElementById("historyToggleText").innerText = t.toggleHistory;
+}
+
+// ====== الثيم ======
+function toggleTheme() {
+  const body = document.body;
+  const icon = document.getElementById("themeIcon");
+  icon.classList.add("spin");
+  setTimeout(() => icon.classList.remove("spin"), 500);
+  body.classList.toggle("light-mode");
+  if (body.classList.contains("light-mode")) {
+    icon.innerText = "☀️";
+    localStorage.setItem("theme", "light");
+  } else {
+    icon.innerText = "🌙";
+    localStorage.setItem("theme", "dark");
+  }
+}
+
+// ====== تحميل الصفحة ======
+window.onload = function() {
+  loadHistoryFromStorage();
+  const savedTheme = localStorage.getItem("theme");
+  const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+  if (savedTheme === "light" || (!savedTheme && prefersLight)) {
+    document.body.classList.add("light-mode");
+    document.getElementById("themeIcon").innerText = "☀️";
+  }
+  updateTimerDisplay();
+}
+</script>
+</body>
+</html> 
