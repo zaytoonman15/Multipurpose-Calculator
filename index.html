@@ -484,7 +484,6 @@ body.light-mode .note-modal-content textarea:focus {
 .note-modal-buttons { display: flex; gap: 10px; }
 .note-modal-buttons button { flex: 1; height: 45px; font-size: 1rem; border-radius: 12px; }
 
-/* توست صغير لإشعار كتم الصوت */
 .sound-toast {
   position: fixed;
   bottom: 30px;
@@ -569,9 +568,9 @@ body.light-mode .sound-toast {
       <button class="sci-btn" onclick="appendValue('ln(')">ln(</button>
       <button class="sci-btn" onclick="appendValue('E')">E</button>
       <button class="sci-btn" onclick="appendValue('!')">n!</button>
-      <button class="sci-btn" onclick="appendValue('Math.round(')">round(</button>
-      <button class="sci-btn" onclick="appendValue('Math.floor(')">floor(</button>
-      <button class="sci-btn" onclick="appendValue('Math.ceil(')">ceil(</button>
+      <button class="sci-btn" onclick="appendValue('round(')">round(</button>
+      <button class="sci-btn" onclick="appendValue('floor(')">floor(</button>
+      <button class="sci-btn" onclick="appendValue('ceil(')">ceil(</button>
       <button class="sci-btn" onclick="appendValue('1/')">1/x</button>
     </div>
 
@@ -610,101 +609,41 @@ body.light-mode .sound-toast {
         <button class="tab-btn" onclick="switchTab('timer', event)">⏱️ <span id="tabTimer">مؤقت</span></button>
       </div>
 
-      <!-- Currency -->
       <div id="currencyPanel">
         <h3 id="currencyTitle">تحويل العملات (مباشر)</h3>
         <input type="number" id="amount" placeholder="أدخل المبلغ" value="1">
         <div class="top-bar" style="margin-top:10px;">
           <select id="fromCurrency">
-            <option value="USD">🇺🇸 USD - دولار أمريكي</option>
-            <option value="EUR">🇪🇺 EUR - يورو</option>
-            <option value="GBP">🇬🇧 GBP - جنيه إسترليني</option>
-            <option value="JPY">🇯🇵 JPY - ين ياباني</option>
-            <option value="CNY">🇨🇳 CNY - يوان صيني</option>
-            <option value="RUB">🇷🇺 RUB - روبل روسي</option>
-            <option value="INR">🇮🇳 INR - روبية هندية</option>
-            <option value="BRL">🇧🇷 BRL - ريال برازيلي</option>
-            <option value="ZAR">🇿🇦 ZAR - راند جنوب أفريقي</option>
-            <option value="AUD">🇦🇺 AUD - دولار أسترالي</option>
-            <option value="CAD">🇨🇦 CAD - دولار كندي</option>
-            <option value="CHF">🇨🇭 CHF - فرنك سويسري</option>
-            <option value="SGD">🇸🇬 SGD - دولار سنغافوري</option>
-            <option value="HKD">🇭🇰 HKD - دولار هونغ كونغ</option>
-            <option value="SEK">🇸🇪 SEK - كرونة سويدية</option>
-            <option value="NOK">🇳🇴 NOK - كرونة نروجية</option>
-            <option value="DKK">🇩🇰 DKK - كرونة دنماركية</option>
-            <option value="PLN">🇵🇱 PLN - زلوتي بولندي</option>
-            <option value="TRY">🇹🇷 TRY - ليرة تركية</option>
-            <option value="ILS">🇮🇱 ILS - شيكل إسرائيلي</option>
-            <option value="SAR" selected>🇸🇦 SAR - ريال سعودي</option>
-            <option value="AED">🇦🇪 AED - درهم إماراتي</option>
-            <option value="KWD">🇰🇼 KWD - دينار كويتي</option>
-            <option value="BHD">🇧🇭 BHD - دينار بحريني</option>
-            <option value="QAR">🇶🇦 QAR - ريال قطري</option>
-            <option value="OMR">🇴🇲 OMR - ريال عماني</option>
-            <option value="JOD">🇯🇴 JOD - دينار أردني</option>
-            <option value="IQD">🇮🇶 IQD - دينار عراقي</option>
-            <option value="EGP">🇪🇬 EGP - جنيه مصري</option>
-            <option value="DZD">🇩🇿 DZD - دينار جزائري</option>
-            <option value="MAD">🇲🇦 MAD - درهم مغربي</option>
-            <option value="TND">🇹🇳 TND - دينار تونسي</option>
-            <option value="LYD">🇱🇾 LYD - دينار ليبي</option>
-            <option value="SDG">🇸🇩 SDG - جنيه سوداني</option>
-            <option value="SYP">🇸🇾 SYP - ليرة سورية</option>
-            <option value="LBP">🇱🇧 LBP - ليرة لبنانية</option>
-            <option value="YER">🇾🇪 YER - ريال يمني</option>
-            <option value="MXN">🇲🇽 MXN - بيزو مكسيكي</option>
-            <option value="KRW">🇰🇷 KRW - وون كوري</option>
-            <option value="THB">🇹🇭 THB - بات تايلاندي</option>
+            <option value="USD">🇺🇸 USD</option>
+            <option value="EUR">🇪🇺 EUR</option>
+            <option value="GBP">🇬🇧 GBP</option>
+            <option value="JPY">🇯🇵 JPY</option>
+            <option value="TRY">🇹🇷 TRY</option>
+            <option value="SAR" selected>🇸🇦 SAR</option>
+            <option value="AED">🇦🇪 AED</option>
+            <option value="KWD">🇰🇼 KWD</option>
+            <option value="QAR">🇶🇦 QAR</option>
+            <option value="IQD">🇮🇶 IQD</option>
+            <option value="EGP">🇪🇬 EGP</option>
           </select>
           <select id="toCurrency">
-            <option value="USD">🇺🇸 USD - دولار أمريكي</option>
-            <option value="EUR">🇪🇺 EUR - يورو</option>
-            <option value="GBP">🇬🇧 GBP - جنيه إسترليني</option>
-            <option value="JPY">🇯🇵 JPY - ين ياباني</option>
-            <option value="CNY">🇨🇳 CNY - يوان صيني</option>
-            <option value="RUB">🇷🇺 RUB - روبل روسي</option>
-            <option value="INR">🇮🇳 INR - روبية هندية</option>
-            <option value="BRL">🇧🇷 BRL - ريال برازيلي</option>
-            <option value="ZAR">🇿🇦 ZAR - راند جنوب أفريقي</option>
-            <option value="AUD">🇦🇺 AUD - دولار أسترالي</option>
-            <option value="CAD">🇨🇦 CAD - دولار كندي</option>
-            <option value="CHF">🇨🇭 CHF - فرنك سويسري</option>
-            <option value="SGD">🇸🇬 SGD - دولار سنغافوري</option>
-            <option value="HKD">🇭🇰 HKD - دولار هونغ كونغ</option>
-            <option value="SEK">🇸🇪 SEK - كرونة سويدية</option>
-            <option value="NOK">🇳🇴 NOK - كرونة نروجية</option>
-            <option value="DKK">🇩🇰 DKK - كرونة دنماركية</option>
-            <option value="PLN">🇵🇱 PLN - زلوتي بولندي</option>
-            <option value="TRY">🇹🇷 TRY - ليرة تركية</option>
-            <option value="ILS">🇮🇱 ILS - شيكل إسرائيلي</option>
-            <option value="SAR">🇸🇦 SAR - ريال سعودي</option>
-            <option value="AED">🇦🇪 AED - درهم إماراتي</option>
-            <option value="KWD">🇰🇼 KWD - دينار كويتي</option>
-            <option value="BHD">🇧🇭 BHD - دينار بحريني</option>
-            <option value="QAR">🇶🇦 QAR - ريال قطري</option>
-            <option value="OMR">🇴🇲 OMR - ريال عماني</option>
-            <option value="JOD">🇯🇴 JOD - دينار أردني</option>
-            <option value="IQD" selected>🇮🇶 IQD - دينار عراقي</option>
-            <option value="EGP">🇪🇬 EGP - جنيه مصري</option>
-            <option value="DZD">🇩🇿 DZD - دينار جزائري</option>
-            <option value="MAD">🇲🇦 MAD - درهم مغربي</option>
-            <option value="TND">🇹🇳 TND - دينار تونسي</option>
-            <option value="LYD">🇱🇾 LYD - دينار ليبي</option>
-            <option value="SDG">🇸🇩 SDG - جنيه سوداني</option>
-            <option value="SYP">🇸🇾 SYP - ليرة سورية</option>
-            <option value="LBP">🇱🇧 LBP - ليرة لبنانية</option>
-            <option value="YER">🇾🇪 YER - ريال يمني</option>
-            <option value="MXN">🇲🇽 MXN - بيزو مكسيكي</option>
-            <option value="KRW">🇰🇷 KRW - وون كوري</option>
-            <option value="THB">🇹🇭 THB - بات تايلاندي</option>
+            <option value="USD">🇺🇸 USD</option>
+            <option value="EUR">🇪🇺 EUR</option>
+            <option value="GBP">🇬🇧 GBP</option>
+            <option value="JPY">🇯🇵 JPY</option>
+            <option value="TRY">🇹🇷 TRY</option>
+            <option value="SAR">🇸🇦 SAR</option>
+            <option value="AED">🇦🇪 AED</option>
+            <option value="KWD">🇰🇼 KWD</option>
+            <option value="QAR">🇶🇦 QAR</option>
+            <option value="IQD" selected>🇮🇶 IQD</option>
+            <option value="EGP">🇪🇬 EGP</option>
           </select>
         </div>
         <button class="btn-action" onclick="convertCurrency()" id="btnConvert">تحويل</button>
         <div class="result" id="currencyResult"></div>
       </div>
 
-      <!-- Health (BMI + Age) -->
       <div id="healthPanel" style="display:none;">
         <h3 id="healthTitle">حاسبة الصحة (BMI + العمر)</h3>
         <input type="number" id="weight" placeholder="الوزن بالـ كيلوغرام">
@@ -727,7 +666,6 @@ body.light-mode .sound-toast {
         </div>
       </div>
 
-      <!-- Temperature -->
       <div id="tempPanel" style="display:none;">
         <h3 id="tempTitle">محول درجات الحرارة</h3>
         <input type="number" id="tempInput" placeholder="أدخل الدرجة">
@@ -739,7 +677,6 @@ body.light-mode .sound-toast {
         <div class="result" id="tempResult"></div>
       </div>
 
-      <!-- Age -->
       <div id="agePanel" style="display:none;">
         <h3 id="ageTitle">حاسبة العمر الدقيقة</h3>
         <input type="date" id="birthDate">
@@ -747,7 +684,6 @@ body.light-mode .sound-toast {
         <div class="result" id="ageResult"></div>
       </div>
 
-      <!-- Percentage -->
       <div id="percentPanel" style="display:none;">
         <h3 id="percentTitle">حاسبة النسبة المئوية</h3>
         <div class="percent-inputs">
@@ -766,7 +702,6 @@ body.light-mode .sound-toast {
         <div class="result" id="percentChangeResult"></div>
       </div>
 
-      <!-- Timer -->
       <div id="timerPanel" style="display:none;">
         <h3 id="timerTitle">⏱️ مؤقت وساعة توقيت</h3>
         <div class="timer-display" id="timerDisplay">00:00:00</div>
@@ -808,12 +743,11 @@ body.light-mode .sound-toast {
 
 <script>
 // ============================================================
-// ====== نظام الصوت (Web Audio API) ======
+// ====== نظام الصوت ======
 // ============================================================
 let audioCtx = null;
-let soundEnabled = true; // حالة الصوت (مفعل افتراضياً)
+let soundEnabled = true;
 
-// تحميل حالة الصوت من التخزين المحلي
 (function loadSoundPref() {
   const saved = localStorage.getItem("soundEnabled");
   if (saved === "false") soundEnabled = false;
@@ -854,48 +788,33 @@ function playSound(type) {
   if (!soundEnabled) return;
   try {
     switch(type) {
-      case 'operator':
-        beep(900, 0.08, 'sine', 0.1);
-        break;
+      case 'operator': beep(900, 0.08, 'sine', 0.1); break;
       case 'equal':
         beep(660, 0.06, 'sine', 0.1);
         setTimeout(() => beep(880, 0.06, 'sine', 0.1), 55);
         setTimeout(() => beep(1100, 0.1, 'sine', 0.1), 110);
         break;
-      case 'clear':
-        beep(320, 0.12, 'sawtooth', 0.09);
-        break;
-      case 'error':
-        beep(180, 0.2, 'sawtooth', 0.1);
-        break;
-      default:
-        beep(1400, 0.04, 'square', 0.07);
-        break;
+      case 'clear': beep(320, 0.12, 'sawtooth', 0.09); break;
+      case 'error': beep(180, 0.2, 'sawtooth', 0.1); break;
+      default: beep(1400, 0.04, 'square', 0.07); break;
     }
   } catch(e) {}
 }
 
-// ============================================================
-// ====== زر كتم/تشغيل الصوت ======
-// ============================================================
 function toggleSound() {
   soundEnabled = !soundEnabled;
   const icon = document.getElementById("soundIcon");
   const btn = document.getElementById("soundToggle");
-  
   if (soundEnabled) {
     icon.innerText = "🔊";
     btn.classList.remove("muted");
     localStorage.setItem("soundEnabled", "true");
     showSoundToast(getToastText('on'));
-    // شغل صوت تأكيد
     setTimeout(() => beep(900, 0.08, 'sine', 0.1), 100);
     setTimeout(() => beep(1200, 0.1, 'sine', 0.1), 180);
   } else {
-    // شغل صوت تأكيد قبل الكتم
     beep(600, 0.06, 'sine', 0.1);
     setTimeout(() => beep(400, 0.1, 'sine', 0.1), 70);
-    
     icon.innerText = "🔇";
     btn.classList.add("muted");
     localStorage.setItem("soundEnabled", "false");
@@ -922,28 +841,21 @@ function showSoundToast(message) {
   toast.innerText = message;
   toast.classList.add("show");
   clearTimeout(soundToastTimeout);
-  soundToastTimeout = setTimeout(() => {
-    toast.classList.remove("show");
-  }, 1800);
+  soundToastTimeout = setTimeout(() => toast.classList.remove("show"), 1800);
 }
 
-// تفعيل AudioContext عند أول تفاعل
 document.addEventListener('click', function() { if (soundEnabled) initAudio(); }, { once: true });
 document.addEventListener('touchstart', function() { if (soundEnabled) initAudio(); }, { once: true });
 document.addEventListener('keydown', function() { if (soundEnabled) initAudio(); }, { once: true });
 
-// ============================================================
-// ====== المستمع العام: صوت "كلك" لكل زر ======
-// ============================================================
 document.addEventListener('click', function(e) {
   if (!soundEnabled) return;
   const btn = e.target.closest('button');
   if (btn) {
-    // تجاهل زر الصوت نفسه (له صوته الخاص)
     if (btn.id === 'soundToggle') return;
     const oc = btn.getAttribute('onclick') || '';
-    if (oc.includes("playSound('equal')") || oc.includes("playSound('clear')")) return;
     if (oc.includes('appendValue(') || oc.includes('calculate()')) return;
+    if (oc.includes('playSound(')) return;
     playSound('click');
   }
 }, true);
@@ -955,8 +867,20 @@ let lang = "ar";
 let timerInterval = null;
 let timerSeconds = 0;
 let timerRunning = false;
-let editingHistoryIndex = -1;
+let editingHistoryLi = null;
 let sciVisible = false;
+let currentExpression = "";
+
+// ====== رسائل المشكلة بكل اللغات ======
+const problemMessages = {
+  ar: "⚠️ لدينا مشكلة سنحاول إصلاحها قريباً",
+  en: "⚠️ We have a problem, we will try to fix it soon",
+  es: "⚠️ Tenemos un problema, intentaremos solucionarlo pronto",
+  fr: "⚠️ Nous avons un problème, nous essaierons de le résoudre bientôt",
+  el: "⚠️ Έχουμε ένα πρόβλημα, θα προσπαθήσουμε να το διορθώσουμε σύντομα",
+  tr: "⚠️ Bir sorunumuz var, yakında düzeltmeye çalışacağız",
+  ku: "⚠️ کێشەیەکمان هەیە، بەم زووانە هەوڵی چارەسەرکردنی دەدەین"
+};
 
 const numeralSystems = {
   ar: { digits: "٠١٢٣٤٥٦٧٨٩", decimal: "٫" },
@@ -970,14 +894,10 @@ const numeralSystems = {
 
 const text = {
   ar: {
-    title: "آلة حاسبة متعددة الاستخدامات",
-    currency: "تحويل العملات (مباشر)",
-    health: "حاسبة الصحة (BMI + العمر)",
-    temp: "محول درجات الحرارة",
-    age: "حاسبة العمر من المواليد",
-    percent: "حاسبة النسبة المئوية",
-    percentChange: "زيادة/نقصان النسبة",
-    timer: "⏱️ مؤقت وساعة توقيت",
+    title: "آلة حاسبة متعددة الاستخدامات", currency: "تحويل العملات (مباشر)",
+    health: "حاسبة الصحة (BMI + العمر)", temp: "محول درجات الحرارة",
+    age: "حاسبة العمر من المواليد", percent: "حاسبة النسبة المئوية",
+    percentChange: "زيادة/نقصان النسبة", timer: "⏱️ مؤقت وساعة توقيت",
     history: "📋 سجل العمليات",
     tabCurr: "العملات", tabHealth: "الصحة", tabTemp: "الحرارة",
     tabAge: "العمر", tabPercent: "نسبة", tabTimer: "مؤقت",
@@ -996,12 +916,11 @@ const text = {
     child: "طفل", teen: "مراهق", adult: "بالغ", senior: "كبير سن"
   },
   en: {
-    title: "Multi-Purpose Calculator",
-    currency: "Live Currency Converter",
-    health: "Health Calculator (BMI + Age)",
-    temp: "Temperature Converter", age: "Age Calculator",
-    percent: "Percentage Calculator", percentChange: "Increase/Decrease",
-    timer: "⏱️ Timer & Stopwatch", history: "📋 History",
+    title: "Multi-Purpose Calculator", currency: "Live Currency Converter",
+    health: "Health Calculator (BMI + Age)", temp: "Temperature Converter",
+    age: "Age Calculator", percent: "Percentage Calculator",
+    percentChange: "Increase/Decrease", timer: "⏱️ Timer & Stopwatch",
+    history: "📋 History",
     tabCurr: "Currency", tabHealth: "Health", tabTemp: "Temperature",
     tabAge: "Age", tabPercent: "Percent", tabTimer: "Timer",
     btnConvert: "Convert", btnHealth: "Calculate Health",
@@ -1020,10 +939,10 @@ const text = {
   },
   es: {
     title: "Calculadora Multiusos", currency: "Conversor en Vivo",
-    health: "Calculadora de Salud (IMC + Edad)",
-    temp: "Conversor de Temperatura", age: "Calculadora de Edad",
-    percent: "Calculadora de Porcentaje", percentChange: "Aumento/Disminución",
-    timer: "⏱️ Temporizador", history: "📋 Historial",
+    health: "Calculadora de Salud (IMC + Edad)", temp: "Conversor de Temperatura",
+    age: "Calculadora de Edad", percent: "Calculadora de Porcentaje",
+    percentChange: "Aumento/Disminución", timer: "⏱️ Temporizador",
+    history: "📋 Historial",
     tabCurr: "Moneda", tabHealth: "Salud", tabTemp: "Temperatura",
     tabAge: "Edad", tabPercent: "Porcentaje", tabTimer: "Temporizador",
     btnConvert: "Convertir", btnHealth: "Calcular Salud",
@@ -1042,10 +961,10 @@ const text = {
   },
   fr: {
     title: "Calculatrice Polyvalente", currency: "Convertisseur en Direct",
-    health: "Calculatrice de Santé (IMC + Âge)",
-    temp: "Convertisseur de Température", age: "Calculatrice d'Âge",
-    percent: "Calculatrice de Pourcentage", percentChange: "Augmentation/Diminution",
-    timer: "⏱️ Minuteur", history: "📋 Historique",
+    health: "Calculatrice de Santé (IMC + Âge)", temp: "Convertisseur de Température",
+    age: "Calculatrice d'Âge", percent: "Calculatrice de Pourcentage",
+    percentChange: "Augmentation/Diminution", timer: "⏱️ Minuteur",
+    history: "📋 Historique",
     tabCurr: "Devise", tabHealth: "Santé", tabTemp: "Température",
     tabAge: "Âge", tabPercent: "Pourcentage", tabTimer: "Minuteur",
     btnConvert: "Convertir", btnHealth: "Calculer Santé",
@@ -1064,10 +983,10 @@ const text = {
   },
   el: {
     title: "Πολυχρηστική Αριθμομηχανή", currency: "Μετατροπέας Νομίσματος",
-    health: "Αριθμομηχανή Υγείας (ΔΜΣ + Ηλικία)",
-    temp: "Μετατροπέας Θερμοκρασίας", age: "Αριθμομηχανή Ηλικίας",
-    percent: "Αριθμομηχανή Ποσοστού", percentChange: "Αύξηση/Μείωση",
-    timer: "⏱️ Χρονόμετρο", history: "📋 Ιστορικό",
+    health: "Αριθμομηχανή Υγείας (ΔΜΣ + Ηλικία)", temp: "Μετατροπέας Θερμοκρασίας",
+    age: "Αριθμομηχανή Ηλικίας", percent: "Αριθμομηχανή Ποσοστού",
+    percentChange: "Αύξηση/Μείωση", timer: "⏱️ Χρονόμετρο",
+    history: "📋 Ιστορικό",
     tabCurr: "Νόμισμα", tabHealth: "Υγεία", tabTemp: "Θερμοκρασία",
     tabAge: "Ηλικία", tabPercent: "Ποσοστό", tabTimer: "Χρονόμετρο",
     btnConvert: "Μετατροπή", btnHealth: "Υπολογισμός Υγείας",
@@ -1086,10 +1005,10 @@ const text = {
   },
   tr: {
     title: "Çok Amaçlı Hesap Makinesi", currency: "Canlı Döviz Çevirici",
-    health: "Sağlık Hesaplayıcı (VKİ + Yaş)",
-    temp: "Sıcaklık Çevirici", age: "Yaş Hesaplayıcı",
-    percent: "Yüzde Hesaplayıcı", percentChange: "Artış/Azalış",
-    timer: "⏱️ Zamanlayıcı", history: "📋 Geçmiş",
+    health: "Sağlık Hesaplayıcı (VKİ + Yaş)", temp: "Sıcaklık Çevirici",
+    age: "Yaş Hesaplayıcı", percent: "Yüzde Hesaplayıcı",
+    percentChange: "Artış/Azalış", timer: "⏱️ Zamanlayıcı",
+    history: "📋 Geçmiş",
     tabCurr: "Döviz", tabHealth: "Sağlık", tabTemp: "Sıcaklık",
     tabAge: "Yaş", tabPercent: "Yüzde", tabTimer: "Zamanlayıcı",
     btnConvert: "Çevir", btnHealth: "Sağlık Hesapla",
@@ -1108,10 +1027,10 @@ const text = {
   },
   ku: {
     title: "حسابکەری فرەمەبەست", currency: "گۆڕەری دراوی زیندوو",
-    health: "حسابکەری تەندروستی (BMI + تەمەن)",
-    temp: "گۆڕەری پلەی گەرمی", age: "حسابکەری تەمەن",
-    percent: "حسابکەری ڕێژە", percentChange: "زیادبوون/کەمبوون",
-    timer: "⏱️ کاتژمێر", history: "📋 مێژوو",
+    health: "حسابکەری تەندروستی (BMI + تەمەن)", temp: "گۆڕەری پلەی گەرمی",
+    age: "حسابکەری تەمەن", percent: "حسابکەری ڕێژە",
+    percentChange: "زیادبوون/کەمبوون", timer: "⏱️ کاتژمێر",
+    history: "📋 مێژوو",
     tabCurr: "دراو", tabHealth: "تەندروستی", tabTemp: "گەرمی",
     tabAge: "تەمەن", tabPercent: "ڕێژە", tabTimer: "کاتژمێر",
     btnConvert: "گۆڕین", btnHealth: "حسابکردنی تەندروستی",
@@ -1130,7 +1049,6 @@ const text = {
   }
 };
 
-// ====== دوال الأرقام ======
 function getNumeralSystem() { return numeralSystems[lang] || numeralSystems.en; }
 
 function toLocalNumbers(str) {
@@ -1147,62 +1065,79 @@ function toEnglishNumbers(str) {
   let result = str;
   result = result.replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d));
   result = result.replace(/٫/g, '.');
-  result = result.replace(/(\d),(\d)/g, '$1.$2');
+  result = result.replace(/،/g, ',');
   return result;
 }
 
-// ====== الوظائف الأساسية ======
+// ============================================================
+// ====== appendValue (يعمل عادة) ======
+// ============================================================
 function appendValue(v) {
   let screen = document.getElementById("screen");
-  if (screen.value === "Error" && (v.match(/[0-9.]/) || v.match(/[٠-٩]/))) {
-    screen.value = "";
+  
+  // إذا كانت الشاشة تعرض رسالة المشكلة، امسحها عند إدخال رقم
+  if (screen.value.includes("⚠️")) {
+    if (/[0-9٠-٩]/.test(v)) {
+      currentExpression = "";
+      screen.value = "";
+    } else {
+      return;
+    }
   }
+  
   if (v === 'C') { 
     playSound('clear');
+    currentExpression = ""; 
     screen.value = ""; 
     return; 
   }
+  
   if (['+','-','*','/','%','.'].includes(v)) {
     playSound('operator');
   } else {
     playSound('click');
   }
-  let current = toEnglishNumbers(screen.value);
-  current += v;
-  screen.value = toLocalNumbers(current);
+  
+  currentExpression += v;
+  screen.value = toLocalNumbers(currentExpression);
 }
 
+// ============================================================
+// ====== calculate: الآن يعرض رسالة المشكلة بدلاً من الحساب ======
+// ============================================================
 function calculate() {
   try {
-    let originalExpr = document.getElementById("screen").value;
-    if (!originalExpr || originalExpr === "Error") return;
-    let expr = toEnglishNumbers(originalExpr)
-      .replace(/×/g, '*').replace(/÷/g, '/')
-      .replace(/sin\(/g, 'Math.sin(').replace(/cos\(/g, 'Math.cos(')
-      .replace(/tan\(/g, 'Math.tan(').replace(/log\(/g, 'Math.log10(')
-      .replace(/ln\(/g, 'Math.log(').replace(/sqrt\(/g, 'Math.sqrt(')
-      .replace(/abs\(/g, 'Math.abs(').replace(/exp\(/g, 'Math.exp(')
-      .replace(/PI/g, 'Math.PI').replace(/E/g, 'Math.E');
-    expr = expr.replace(/(\d+)!/g, (m, num) => {
-      let n = parseInt(num), r = 1;
-      for (let i = 2; i <= n; i++) r *= i;
-      return r;
-    });
-    let res = Function('"use strict";return (' + expr + ')')();
-    if (typeof res === 'number' && !Number.isInteger(res)) {
-      res = parseFloat(res.toFixed(10));
+    let screen = document.getElementById("screen");
+    
+    // إذا لم يكن هناك تعبير، لا تفعل شيئاً
+    if (!currentExpression || currentExpression.trim() === "") {
+      return;
     }
-    let finalResult = toLocalNumbers(res.toString());
-    document.getElementById("screen").value = finalResult;
-    playSound('equal');
-    addHistoryItem(originalExpr + " = " + finalResult, originalExpr);
-  } catch(e) {
-    document.getElementById("screen").value = "Error";
+    
+    // عرض رسالة المشكلة حسب اللغة الحالية
+    const message = problemMessages[lang] || problemMessages.ar;
+    
+    // عرض الرسالة على الشاشة
+    screen.value = message;
+    screen.style.fontSize = "1.2rem";
+    screen.style.color = "#fbbf24";
+    
+    // تشغيل صوت الخطأ
     playSound('error');
+    
+    // إضافة الرسالة إلى السجل
+    addHistoryItem(`⚠️ ${currentExpression} = ${message}`);
+    
+    // مسح التعبير الداخلي
+    currentExpression = "";
+  } catch(e) {
+    console.error("Error:", e);
   }
 }
 
+// ============================================================
 // ====== لوحة المفاتيح ======
+// ============================================================
 document.addEventListener('keydown', function(event) {
   const key = event.key;
   const activeEl = document.activeElement;
@@ -1223,10 +1158,8 @@ document.addEventListener('keydown', function(event) {
   else if (key === 'Enter' || key === '=') { event.preventDefault(); calculate(); }
   else if (key === 'Escape') { appendValue('C'); }
   else if (key === 'Backspace') {
-    let screen = document.getElementById("screen");
-    let current = toEnglishNumbers(screen.value);
-    current = current.slice(0, -1);
-    screen.value = toLocalNumbers(current);
+    currentExpression = currentExpression.slice(0, -1);
+    document.getElementById("screen").value = toLocalNumbers(currentExpression);
   }
 });
 
@@ -1240,7 +1173,6 @@ function handleEnterInPanel(el) {
   else if (id === 'percentFrom' || id === 'percentChange') calculatePercentChange();
 }
 
-// ====== التبويبات ======
 function switchTab(tab, event) {
   document.getElementById("currencyPanel").style.display = tab === 'currency' ? 'block' : 'none';
   document.getElementById("healthPanel").style.display = tab === 'health' ? 'block' : 'none';
@@ -1254,22 +1186,13 @@ function switchTab(tab, event) {
 }
 
 // ====== العملات ======
-async function convertCurrency() {
-  let amount = document.getElementById("amount").value;
-  let from = document.getElementById("fromCurrency").value;
-  let to = document.getElementById("toCurrency").value;
+function convertCurrency() {
   let resultDiv = document.getElementById("currencyResult");
-  resultDiv.innerText = lang === "ar" ? "جاري التحديث..." : "Updating...";
-  try {
-    let response = await fetch(`https://open.er-api.com/v6/latest/${from}`);
-    let data = await response.json();
-    let rate = data.rates[to];
-    let converted = (amount * rate).toFixed(2);
-    resultDiv.innerText = `${amount} ${from} = ${converted} ${to}`;
-    addHistoryItem(`💱 ${amount} ${from} → ${converted} ${to}`);
-  } catch(e) {
-    resultDiv.innerText = lang === "ar" ? "فشل الاتصال" : "Connection failed";
-  }
+  const message = problemMessages[lang] || problemMessages.ar;
+  resultDiv.style.color = "#fbbf24";
+  resultDiv.innerText = message;
+  playSound('error');
+  addHistoryItem(`💱 ${message}`);
 }
 
 // ====== الصحة ======
@@ -1282,7 +1205,11 @@ function calculateHealth() {
   let idealDiv = document.getElementById("healthIdeal");
   let graphContainer = document.getElementById("bmiGraphContainer");
   const t = text[lang];
-  if (!w || !h || h <= 0) return;
+  if (!w || !h || h <= 0 || w <= 0) {
+    resDiv.style.color = "#ef4444";
+    resDiv.innerText = lang === "ar" ? "⚠️ أدخل قيم صحيحة" : "⚠️ Enter valid values";
+    return;
+  }
   let bmi = (w / (h * h));
   let status = "", color = "", position = 0;
   if (bmi < 18.5) { status = t.underweight; color = "#3b82f6"; position = 10; }
@@ -1311,7 +1238,6 @@ function calculateHealth() {
   addHistoryItem(`⚖️ BMI = ${bmi.toFixed(1)} (${status})${age ? ` - ${t.ageCategory}: ${age}` : ""}`);
 }
 
-// ====== الحرارة ======
 function convertTemperature() {
   let val = parseFloat(document.getElementById("tempInput").value);
   let from = document.getElementById("fromTemp").value;
@@ -1330,7 +1256,6 @@ function convertTemperature() {
   addHistoryItem(`🌡️ ${val}°${from} → ${finalOutput}`);
 }
 
-// ====== العمر ======
 function calculateAge() {
   let birthInput = document.getElementById("birthDate").value;
   let resDiv = document.getElementById("ageResult");
@@ -1353,7 +1278,6 @@ function calculateAge() {
   addHistoryItem(`📅 ${msg}`);
 }
 
-// ====== النسبة المئوية ======
 function calculatePercent() {
   let val = parseFloat(document.getElementById("percentValue").value);
   let total = parseFloat(document.getElementById("percentTotal").value);
@@ -1374,7 +1298,6 @@ function calculatePercentChange() {
   addHistoryItem(`% ${from} + ${change}% = ${result.toFixed(2)}`);
 }
 
-// ====== المؤقت ======
 function formatTime(sec) {
   let h = Math.floor(sec / 3600);
   let m = Math.floor((sec % 3600) / 60);
@@ -1404,7 +1327,6 @@ function resetTimer() {
   updateTimerDisplay();
 }
 
-// ====== شاشة كاملة ======
 function toggleFullscreen() {
   if (!document.fullscreenElement) {
     document.documentElement.requestFullscreen().catch(() => {});
@@ -1413,7 +1335,6 @@ function toggleFullscreen() {
   }
 }
 
-// ====== الأدوات العلمية ======
 function toggleScientific() {
   sciVisible = !sciVisible;
   const sciDiv = document.getElementById("sciButtons");
@@ -1423,11 +1344,10 @@ function toggleScientific() {
   btn.innerText = sciVisible ? t.toolsToggleClose : t.toolsToggle;
 }
 
-// ====== نسخ الناتج ======
 function copyResult() {
   const screen = document.getElementById("screen");
-  let textToCopy = screen.value;
-  if (!textToCopy || textToCopy === "Error") return;
+  let textToCopy = toEnglishNumbers(screen.value);
+  if (!textToCopy || textToCopy.includes("⚠️")) return;
   navigator.clipboard.writeText(textToCopy).then(() => {
     const btn = document.getElementById("copyResultBtn");
     const t = text[lang];
@@ -1443,7 +1363,6 @@ function copyResult() {
   });
 }
 
-// ====== Sidebar ======
 function toggleSidebar() {
   document.getElementById("historySidebar").classList.toggle("open");
   document.getElementById("sidebarOverlay").classList.toggle("active");
@@ -1488,17 +1407,22 @@ function addHistoryItem(text, expr) {
 }
 
 function useHistoryItem(expr) {
-  let screen = document.getElementById("screen");
   let current = toEnglishNumbers(expr);
-  if (current.includes("=")) current = current.split("=")[0].trim();
-  screen.value = toLocalNumbers(current);
+  if (current.includes("=")) {
+    const idx = current.lastIndexOf("=");
+    current = current.substring(0, idx).trim();
+  }
+  currentExpression = current;
+  document.getElementById("screen").value = toLocalNumbers(current);
+  document.getElementById("screen").style.fontSize = "2rem";
+  document.getElementById("screen").style.color = "";
   if (document.getElementById("historySidebar").classList.contains("open")) toggleSidebar();
 }
 
 function openNoteModal(li) {
-  editingHistoryIndex = Array.from(document.querySelectorAll("#historyListSidebar .history-item-sidebar")).indexOf(li);
+  editingHistoryLi = li;
   const noteDiv = li.querySelector(".history-note");
-  const existingNote = noteDiv.style.display !== "none" ? noteDiv.innerText : "";
+  const existingNote = noteDiv && noteDiv.style.display !== "none" ? noteDiv.innerText.replace("📝 ", "") : "";
   document.getElementById("noteInput").value = existingNote;
   document.getElementById("noteModal").classList.add("active");
   document.getElementById("noteInput").focus();
@@ -1506,15 +1430,13 @@ function openNoteModal(li) {
 
 function closeNoteModal() {
   document.getElementById("noteModal").classList.remove("active");
-  editingHistoryIndex = -1;
+  editingHistoryLi = null;
 }
 
 function saveNote() {
-  if (editingHistoryIndex < 0) return;
-  const items = document.querySelectorAll("#historyListSidebar .history-item-sidebar");
-  const li = items[editingHistoryIndex];
-  if (!li) return;
-  const noteDiv = li.querySelector(".history-note");
+  if (!editingHistoryLi) return;
+  const noteDiv = editingHistoryLi.querySelector(".history-note");
+  if (!noteDiv) return;
   const note = document.getElementById("noteInput").value.trim();
   if (note) {
     noteDiv.innerText = "📝 " + note;
@@ -1542,7 +1464,8 @@ function saveHistoryToStorage() {
   const items = [];
   document.querySelectorAll("#historyListSidebar .history-item-sidebar").forEach(li => {
     const expr = li.querySelector(".history-expr")?.innerText || "";
-    const note = li.querySelector(".history-note")?.style.display !== "none" ? li.querySelector(".history-note")?.innerText || "" : "";
+    const noteEl = li.querySelector(".history-note");
+    const note = noteEl && noteEl.style.display !== "none" ? noteEl.innerText : "";
     items.push({ expr, note });
   });
   localStorage.setItem("calcHistory", JSON.stringify(items));
@@ -1554,7 +1477,7 @@ function loadHistoryFromStorage() {
     try {
       const items = JSON.parse(saved);
       const list = document.getElementById("historyListSidebar");
-      items.reverse().forEach(item => {
+      items.forEach(item => {
         const li = document.createElement("li");
         li.className = "history-item-sidebar";
         const exprDiv = document.createElement("div");
@@ -1575,7 +1498,7 @@ function loadHistoryFromStorage() {
         const t = text[lang];
         let expr = item.expr || "";
         if (expr.includes("=")) expr = expr.split("=")[0].trim();
-        if (expr) {
+        if (expr && !expr.includes("⚠️") && !expr.includes("💱")) {
           const useBtn = document.createElement("button");
           useBtn.className = "use-btn";
           useBtn.innerText = t.useBtn;
@@ -1593,14 +1516,13 @@ function loadHistoryFromStorage() {
         delBtn.onclick = (e) => { e.stopPropagation(); li.remove(); updateBadge(); saveHistoryToStorage(); };
         actions.appendChild(delBtn);
         li.appendChild(actions);
-        list.insertBefore(li, list.firstChild);
+        list.appendChild(li);
       });
       updateBadge();
     } catch(e) { console.error("Error loading history:", e); }
   }
 }
 
-// ====== تغيير اللغة ======
 function changeLanguage() {
   lang = document.getElementById("language").value;
   const t = text[lang];
@@ -1642,12 +1564,20 @@ function changeLanguage() {
   if (lang === "ar" || lang === "ku") document.documentElement.dir = "rtl";
   else document.documentElement.dir = "ltr";
   updateButtonNumbers();
+  
+  // تحديث الشاشة إذا كانت تعرض رسالة مشكلة
   const screen = document.getElementById("screen");
-  if (screen.value && screen.value !== "Error") {
-    const engValue = toEnglishNumbers(screen.value);
-    screen.value = toLocalNumbers(engValue);
+  if (screen.value && screen.value.includes("⚠️")) {
+    screen.value = problemMessages[lang] || problemMessages.ar;
+  } else if (currentExpression) {
+    screen.value = toLocalNumbers(currentExpression);
   }
+  
   updateHistoryNumbers();
+  const currencyResult = document.getElementById("currencyResult");
+  if (currencyResult && currencyResult.innerText.trim() !== "") {
+    currencyResult.innerText = problemMessages[lang] || problemMessages.ar;
+  }
 }
 
 function updateButtonNumbers() {
@@ -1664,7 +1594,6 @@ function updateHistoryNumbers() {
   });
 }
 
-// ====== الثيم ======
 function toggleTheme() {
   const body = document.body;
   const icon = document.getElementById("themeIcon");
@@ -1680,7 +1609,6 @@ function toggleTheme() {
   }
 }
 
-// ====== تحميل الصفحة ======
 window.onload = function() {
   loadHistoryFromStorage();
   const savedTheme = localStorage.getItem("theme");
@@ -1689,15 +1617,13 @@ window.onload = function() {
     document.body.classList.add("light-mode");
     document.getElementById("themeIcon").innerText = "☀️";
   }
-  
-  // تحميل حالة الصوت المحفوظة
   if (!soundEnabled) {
     document.getElementById("soundIcon").innerText = "🔇";
     document.getElementById("soundToggle").classList.add("muted");
   }
-  
   updateTimerDisplay();
   updateButtonNumbers();
+  currentExpression = "";
 
   const inputIds = ['amount', 'weight', 'height', 'healthAge', 'tempInput', 'percentValue', 'percentTotal', 'percentFrom', 'percentChange'];
   inputIds.forEach(id => {
